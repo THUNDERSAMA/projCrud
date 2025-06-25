@@ -1,0 +1,77 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = projCrud
+build_property.RootNamespace = projCrud
+build_property.ProjectDir = J:\dotnet project\projCrud\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = J:\dotnet project\projCrud
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[J:/dotnet project/projCrud/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[J:/dotnet project/projCrud/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[J:/dotnet project/projCrud/Pages/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[J:/dotnet project/projCrud/Pages/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[J:/dotnet project/projCrud/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[J:/dotnet project/projCrud/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[J:/dotnet project/projCrud/views/Center/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = dmlld3NcQ2VudGVyXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[J:/dotnet project/projCrud/views/Center/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = dmlld3NcQ2VudGVyXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[J:/dotnet project/projCrud/views/Center/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = dmlld3NcQ2VudGVyXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[J:/dotnet project/projCrud/views/Donor/add-donor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = dmlld3NcRG9ub3JcYWRkLWRvbm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[J:/dotnet project/projCrud/views/Donor/edit-donor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = dmlld3NcRG9ub3JcZWRpdC1kb25vci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[J:/dotnet project/projCrud/views/Donor/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = dmlld3NcRG9ub3JcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[J:/dotnet project/projCrud/views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = dmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[J:/dotnet project/projCrud/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-u5ubvrzqyl
