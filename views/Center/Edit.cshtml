@@ -227,9 +227,9 @@
             <div class="nav-brand">Blood Bank Dashboard</div>
             <button class="nav-toggle" onclick="toggleNav()">☰</button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="centres.html" class="active">Centres</a></li>
-                <li><a href="donors.html">Donors</a></li>
+                <li><a href="../Home">Home</a></li>
+                <li><a href="../Center/" class="active">Centres</a></li>
+                <li><a href="../Donor/">Donors</a></li>
             </ul>
         </div>
     </nav>
@@ -260,7 +260,7 @@
 
                     <div class="form-actions">
                         <button type="submit" class="btn">Update Centre</button>
-                        <a href="/centers" class="btn btn-secondary">Cancel</a>
+                        <a href="/Center" class="btn btn-secondary">Cancel</a>
                     </div>
                 </form>
             </div>
@@ -297,11 +297,11 @@
 
             if (res.ok) {
                 document.getElementById("messageBox").innerHTML =
-                    `<div class="alert alert-success">${result.message}</div>`;
+                    `<div class="alert alert-success"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>${result.message}</div>`;
             } else {
                 const errorText = Object.values(result).flat().join("<br>");
                 document.getElementById("messageBox").innerHTML =
-                    `<div class="alert alert-danger">${errorText}</div>`;
+                    `<div class="alert alert-danger"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>${errorText}</div>`;
             }
         }
 

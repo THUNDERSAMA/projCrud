@@ -1,3 +1,4 @@
+@model projCrud.Models.DashboardViewModel
 <!DOCTYPE html>
 <html lang="en">
 
@@ -250,9 +251,9 @@
             <div class="nav-brand">Blood Bank Dashboard</div>
             <button class="nav-toggle" onclick="toggleNav()">☰</button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="Center/Center.cshtml">Centres</a></li>
-                <li><a href="Donor/donors.cshtml">Donors</a></li>
+                <li><a href="../Home">Home</a></li>
+                <li><a href="../Center/" class="active">Centres</a></li>
+                <li><a href="../Donor/">Donors</a></li>
             </ul>
         </div>
     </nav>
@@ -267,21 +268,23 @@
             </section>
 
             <!-- Statistics -->
+
+
             <section class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number">156</div>
+                    <div class="stat-number">@Model.TotalDonors</div>
                     <div class="stat-label">Total Donors</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">8</div>
+                    <div class="stat-number">@Model.TotalCenters</div>
                     <div class="stat-label">Blood Centres</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">423</div>
+                    <div class="stat-number">@Model.TotalDonations</div>
                     <div class="stat-label">Total Donations</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">89</div>
+                    <div class="stat-number">@Model.DonationsThisMonth</div>
                     <div class="stat-label">This Month</div>
                 </div>
             </section>
@@ -298,7 +301,7 @@
                     <div class="action-icon">👥</div>
                     <h3 class="action-title">Manage Donors</h3>
                     <p>Track and manage registered blood donors and their donation history.</p>
-                    <a href="donors.html" class="btn">View Donors</a>
+                    <a href="/Donor" class="btn">View Donors</a>
                 </div>
             </section>
         </div>

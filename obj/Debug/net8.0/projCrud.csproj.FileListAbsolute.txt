@@ -105,3 +105,4 @@ J:\dotnet project\projCrud\obj\Debug\net8.0\refint\projCrud.dll
 J:\dotnet project\projCrud\obj\Debug\net8.0\projCrud.pdb
 J:\dotnet project\projCrud\obj\Debug\net8.0\projCrud.genruntimeconfig.cache
 J:\dotnet project\projCrud\obj\Debug\net8.0\ref\projCrud.dll
+J:\dotnet project\projCrud\obj\Debug\net8.0\projCrud.sourcelink.json

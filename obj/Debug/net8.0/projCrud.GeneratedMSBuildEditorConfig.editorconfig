@@ -56,12 +56,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = dmlld3NcQ2VudGVyXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[J:/dotnet project/projCrud/views/Donor/add-donor.cshtml]
-build_metadata.AdditionalFiles.TargetPath = dmlld3NcRG9ub3JcYWRkLWRvbm9yLmNzaHRtbA==
+[J:/dotnet project/projCrud/views/Donor/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = dmlld3NcRG9ub3JcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[J:/dotnet project/projCrud/views/Donor/edit-donor.cshtml]
-build_metadata.AdditionalFiles.TargetPath = dmlld3NcRG9ub3JcZWRpdC1kb25vci5jc2h0bWw=
+[J:/dotnet project/projCrud/views/Donor/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = dmlld3NcRG9ub3JcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [J:/dotnet project/projCrud/views/Donor/Index.cshtml]

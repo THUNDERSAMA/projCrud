@@ -1,294 +1,327 @@
-<!DOCTYPE html>
-<html lang="en">
+@model List<projCrud.Models.Donor>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blood Bank Dashboard - Donors</title>
-    <style>
-        :root {
-            --primary-color: #e74c3c;
-            --secondary-color: #c0392b;
-            --accent-color: #f8f9fa;
-            --text-color: #2c3e50;
-            --border-color: #dee2e6;
-            --success-color: #27ae60;
-            --warning-color: #f39c12;
-            --danger-color: #e74c3c;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            --border-radius: 8px;
-        }
+@{
+    ViewData["Title"] = "Donors";
+}
+    <!DOCTYPE html>
+    <html lang="en">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Blood Bank Dashboard - Donors</title>
+        <style>
+            :root {
+                --primary-color: #e74c3c;
+                --secondary-color: #c0392b;
+                --accent-color: #f8f9fa;
+                --text-color: #2c3e50;
+                --border-color: #dee2e6;
+                --success-color: #27ae60;
+                --warning-color: #f39c12;
+                --danger-color: #e74c3c;
+                --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                --border-radius: 8px;
+            }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: #f8f9fa;
-        }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-        /* Navigation */
-        .navbar {
-            background-color: var(--primary-color);
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: #f8f9fa;
+            }
+
+            /* Navigation */
+            .navbar {
+                background-color: var(--primary-color);
+                color: white;
+                padding: 1rem 0;
+                position: fixed;
+                top: 0;
+                width: 100%;
+                z-index: 1000;
+                box-shadow: var(--shadow);
+            }
+
+            .nav-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 1rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .nav-brand {
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+
+            .nav-links {
+                display: flex;
+                list-style: none;
+                gap: 2rem;
+            }
+
+            .nav-links a {
+                color: white;
+                text-decoration: none;
+                padding: 0.5rem 1rem;
+                border-radius: var(--border-radius);
+                transition: background-color 0.3s ease;
+            }
+
+            .nav-links a:hover,
+            .nav-links a.active {
+                background-color: var(--secondary-color);
+            }
+
+            /* Main Content */
+            .main-content {
+                margin-top: 80px;
+                padding: 2rem 0;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 1rem;
+            }
+
+            .page-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 2rem;
+                padding-bottom: 1rem;
+                border-bottom: 2px solid var(--border-color);
+            }
+
+            .page-title {
+                font-size: 2rem;
+                color: var(--text-color);
+            }
+
+            .btn {
+                display: inline-block;
+                padding: 0.75rem 1.5rem;
+                background-color: var(--primary-color);
+                color: white;
+                text-decoration: none;
+                border-radius: var(--border-radius);
+                transition: background-color 0.3s ease;
+                border: none;
+                cursor: pointer;
+                font-size: 1rem;
+            }
+
+            .btn:hover {
+                background-color: var(--secondary-color);
+            }
+
+            .btn-sm {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+                margin: 0 0.25rem;
+            }
+
+            .btn-success {
+                background-color: var(--success-color);
+            }
+
+            .btn-success:hover {
+                background-color: #219a52;
+            }
+
+            .btn-danger {
+                background-color: var(--danger-color);
+            }
+
+            .btn-danger:hover {
+                background-color: #c0392b;
+            }
+.alert {
+            padding: 20px;
             color: white;
-            padding: 1rem 0;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: var(--shadow);
+            border-radius: 5px;
         }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-brand {
-            font-size: 1.5rem;
+        .closebtn {
+            margin-left: 15px;
+            color: white;
             font-weight: bold;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: var(--border-radius);
-            transition: background-color 0.3s ease;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            background-color: var(--secondary-color);
-        }
-
-        /* Main Content */
-        .main-content {
-            margin-top: 80px;
-            padding: 2rem 0;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        .page-title {
-            font-size: 2rem;
-            color: var(--text-color);
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            background-color: var(--primary-color);
-            color: white;
-            text-decoration: none;
-            border-radius: var(--border-radius);
-            transition: background-color 0.3s ease;
-            border: none;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
             cursor: pointer;
-            font-size: 1rem;
+            transition: 0.3s;
         }
 
-        .btn:hover {
-            background-color: var(--secondary-color);
+        .closebtn:hover {
+            color: black;
         }
 
-        .btn-sm {
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-            margin: 0 0.25rem;
+        .alert-danger {
+            background-color: #f44336;
+
         }
 
-        .btn-success {
-            background-color: var(--success-color);
-        }
-
-        .btn-success:hover {
-            background-color: #219a52;
-        }
-
-        .btn-danger {
-            background-color: var(--danger-color);
-        }
-
-        .btn-danger:hover {
-            background-color: #c0392b;
-        }
-
-        /* Blood Group Badges */
-        .blood-group {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.8rem;
-            color: white;
-        }
-
-        .blood-group.a-pos {
-            background-color: #e74c3c;
-        }
-
-        .blood-group.a-neg {
-            background-color: #c0392b;
-        }
-
-        .blood-group.b-pos {
-            background-color: #3498db;
-        }
-
-        .blood-group.b-neg {
-            background-color: #2980b9;
-        }
-
-        .blood-group.ab-pos {
-            background-color: #9b59b6;
-        }
-
-        .blood-group.ab-neg {
-            background-color: #8e44ad;
-        }
-
-        .blood-group.o-pos {
+        .alert-success {
             background-color: #27ae60;
         }
+            /* Blood Group Badges */
+            .blood-group {
+                display: inline-block;
+                padding: 0.25rem 0.75rem;
+                border-radius: 20px;
+                font-weight: bold;
+                font-size: 0.8rem;
+                color: white;
+            }
 
-        .blood-group.o-neg {
-            background-color: #229954;
-        }
+            .blood-group.a-pos {
+                background-color: #e74c3c;
+            }
 
-        /* Table Styles */
-        .table-container {
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
+            .blood-group.a-neg {
+                background-color: #c0392b;
+            }
 
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+            .blood-group.b-pos {
+                background-color: #3498db;
+            }
 
-        .table th,
-        .table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
+            .blood-group.b-neg {
+                background-color: #2980b9;
+            }
 
-        .table th {
-            background-color: var(--accent-color);
-            font-weight: 600;
-            color: var(--text-color);
-        }
+            .blood-group.ab-pos {
+                background-color: #9b59b6;
+            }
 
-        .table tbody tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
+            .blood-group.ab-neg {
+                background-color: #8e44ad;
+            }
 
-        .table tbody tr:hover {
-            background-color: #e9ecef;
-        }
+            .blood-group.o-pos {
+                background-color: #27ae60;
+            }
 
-        /* Responsive Table */
-        .table-responsive {
-            overflow-x: auto;
-        }
+            .blood-group.o-neg {
+                background-color: #229954;
+            }
 
-        /* Cards Layout for Mobile */
-        .donors-grid {
-            display: none;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
+            /* Table Styles */
+            .table-container {
+                background: white;
+                border-radius: var(--border-radius);
+                box-shadow: var(--shadow);
+                overflow: hidden;
+            }
 
-        .donor-card {
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            padding: 1.5rem;
-            transition: transform 0.3s ease;
-        }
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+            }
 
-        .donor-card:hover {
-            transform: translateY(-2px);
-        }
+            .table th,
+            .table td {
+                padding: 1rem;
+                text-align: left;
+                border-bottom: 1px solid var(--border-color);
+            }
 
-        .donor-name {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
+            .table th {
+                background-color: var(--accent-color);
+                font-weight: 600;
+                color: var(--text-color);
+            }
 
-        .donor-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
+            .table tbody tr:nth-child(even) {
+                background-color: #f8f9fa;
+            }
 
-        .donor-info-item {
-            display: flex;
-            flex-direction: column;
-        }
+            .table tbody tr:hover {
+                background-color: #e9ecef;
+            }
 
-        .donor-info-label {
-            font-size: 0.8rem;
-            color: #6c757d;
-            margin-bottom: 0.25rem;
-        }
+            /* Responsive Table */
+            .table-responsive {
+                overflow-x: auto;
+            }
 
-        .donor-info-value {
-            font-weight: 500;
-        }
+            /* Cards Layout for Mobile */
+            .donors-grid {
+                display: none;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 1.5rem;
+                margin-top: 2rem;
+            }
 
-        .donor-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
+            .donor-card {
+                background: white;
+                border-radius: var(--border-radius);
+                box-shadow: var(--shadow);
+                padding: 1.5rem;
+                transition: transform 0.3s ease;
+            }
 
-        /* Mobile Navigation */
-        .nav-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
+            .donor-card:hover {
+                transform: translateY(-2px);
+            }
 
-        @* @media (max-width: 768px) {
+            .donor-name {
+                font-size: 1.3rem;
+                font-weight: bold;
+                color: var(--primary-color);
+                margin-bottom: 0.5rem;
+            }
+
+            .donor-info {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .donor-info-item {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .donor-info-label {
+                font-size: 0.8rem;
+                color: #6c757d;
+                margin-bottom: 0.25rem;
+            }
+
+            .donor-info-value {
+                font-weight: 500;
+            }
+
+            .donor-actions {
+                display: flex;
+                gap: 0.5rem;
+                margin-top: 1rem;
+            }
+
+            /* Mobile Navigation */
+            .nav-toggle {
+                display: none;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+
+            @* @media (max-width: 768px) {
             .nav-toggle {
                 display: block;
             }
@@ -327,451 +360,95 @@
             .donors-grid {
                 display: grid;
             } *@
-        }
-    </style>
-</head>
+            }
+        </style>
+    </head>
 
-<body>
-    <!-- Navigation -->
-    <nav class="navbar">
+    <body>
+         <nav class="navbar">
         <div class="nav-container">
             <div class="nav-brand">Blood Bank Dashboard</div>
             <button class="nav-toggle" onclick="toggleNav()">☰</button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="centres.html">Centres</a></li>
-                <li><a href="donors.html" class="active">Donors</a></li>
+                <li><a href="../Home">Home</a></li>
+                <li><a href="../Center/" class="active">Centres</a></li>
+                <li><a href="../Donor/">Donors</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="container">
-            <!-- Page Header -->
-            <div class="page-header">
-                <h1 class="page-title">Blood Donors</h1>
-                <a href="add-donor.html" class="btn">+ Add Donor</a>
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <h1 class="page-title">Blood Donors</h1>
+                    <a href="Donor/Create" class="btn">+ Add Donor</a>
+                </div>
+<div id="messageBox"></div>
+                <!-- Desktop Table View -->
+                <div class="table-container">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Donor Name</th>
+                                    <th>Age</th>
+                                    <th>Blood Group</th>
+                                    <th>Donation Date</th>
+                                    <th>Centre Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var donor in Model)
+                                {
+                                    <tr>
+                                        <td>@donor.Name</td>
+                                        <td>@donor.Age</td>
+                                        <td><span class="blood-group a-pos">@donor.BloodGroup</span></td>
+                                        <td>@donor.DonationDate.ToString("dd MMM yyyy")</td>
+                                        <td>@donor.Center?.Name</td>
+                                        <td>
+                                            <a href="../Donor/Edit?id=@donor.Id" class="btn btn-sm btn-success">Edit</a>
+                                            <button class="btn btn-sm btn-danger"
+                                                onclick="confirmDelete('@donor.Name',@donor.Id);">Delete</button>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
             </div>
+        </main>
 
-            <!-- Desktop Table View -->
-            <div class="table-container">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Donor Name</th>
-                                <th>Age</th>
-                                <th>Blood Group</th>
-                                <th>Donation Date</th>
-                                <th>Centre Name</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>John Smith</td>
-                                <td>28</td>
-                                <td><span class="blood-group a-pos">A+</span></td>
-                                <td>2024-06-15</td>
-                                <td>City General Hospital Blood Bank</td>
-                                <td>
-                                    <a href="edit-donor.html?id=1" class="btn btn-sm btn-success">Edit</a>
-                                    <button class="btn btn-sm btn-danger"
-                                        onclick="confirmDelete('John Smith')">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Sarah Johnson</td>
-                                <td>34</td>
-                                <td><span class="blood-group o-neg">O-</span></td>
-                                <td>2024-06-10</td>
-                                <td>Regional Blood Center</td>
-                                <td>
-                                    <a href="edit-donor.html?id=2" class="btn btn-sm btn-success">Edit</a>
-                                    <button class="btn btn-sm btn-danger"
-                                        onclick="confirmDelete('Sarah Johnson')">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Michael Brown</td>
-                                <td>42</td>
-                                <td><span class="blood-group b-pos">B+</span></td>
-                                <td>2024-06-08</td>
-                                <td>Community Health Blood Bank</td>
-                                <td>
-                                    <a href="edit-donor.html?id=3" class="btn btn-sm btn-success">Edit</a>
-                                    <button class="btn btn-sm btn-danger"
-                                        onclick="confirmDelete('Michael Brown')">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Emily Davis</td>
-                                <td>26</td>
-                                <td><span class="blood-group ab-pos">AB+</span></td>
-                                <td>2024-06-05</td>
-                                <td>University Medical Center</td>
-                                <td>
-                                    <a href="edit-donor.html?id=4" class="btn btn-sm btn-success">Edit</a>
-                                    <button class="btn btn-sm btn-danger"
-                                        onclick="confirmDelete('Emily Davis')">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>David Wilson</td>
-                                <td>31</td>
-                                <td><span class="blood-group a-neg">A-</span></td>
-                                <td>2024-06-03</td>
-                                <td>Emergency Blood Services</td>
-                                <td>
-                                    <a href="edit-donor.html?id=5" class="btn btn-sm btn-success">Edit</a>
-                                    <button class="btn btn-sm btn-danger"
-                                        onclick="confirmDelete('David Wilson')">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Lisa Garcia</td>
-                                <td>29</td>
-                                <td><span class="blood-group o-pos">O+</span></td>
-                                <td>2024-06-01</td>
-                                <td>Southside Medical Blood Bank</td>
-                                <td>
-                                    <a href="edit-donor.html?id=6" class="btn btn-sm btn-success">Edit</a>
-                                    <button class="btn btn-sm btn-danger"
-                                        onclick="confirmDelete('Lisa Garcia')">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Robert Martinez</td>
-                                <td>37</td>
-                                <td><span class="blood-group b-neg">B-</span></td>
-                                <td>2024-05-28</td>
-                                <td>Children's Hospital Blood Center</td>
-                                <td>
-                                    <a href="edit-donor.html?id=7" class="btn btn-sm btn-success">Edit</a>
-                                    <button class="btn btn-sm btn-danger"
-                                        onclick="confirmDelete('Robert Martinez')">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Jennifer Lee</td>
-                                <td>33</td>
-                                <td><span class="blood-group ab-neg">AB-</span></td>
-                                <td>2024-05-25</td>
-                                <td>Metropolitan Blood Services</td>
-                                <td>
-                                    <a href="edit-donor.html?id=8" class="btn btn-sm btn-success">Edit</a>
-                                    <button class="btn btn-sm btn-danger"
-                                        onclick="confirmDelete('Jennifer Lee')">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Christopher Taylor</td>
-                                <td>25</td>
-                                <td><span class="blood-group a-pos">A+</span></td>
-                                <td>2024-05-22</td>
-                                <td>City General Hospital Blood Bank</td>
-                                <td>
-                                    <a href="edit-donor.html?id=9" class="btn btn-sm btn-success">Edit</a>
-                                    <button class="btn btn-sm btn-danger"
-                                        onclick="confirmDelete('Christopher Taylor')">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Amanda White</td>
-                                <td>39</td>
-                                <td><span class="blood-group o-neg">O-</span></td>
-                                <td>2024-05-20</td>
-                                <td>Regional Blood Center</td>
-                                <td>
-                                    <a href="edit-donor.html?id=10" class="btn btn-sm btn-success">Edit</a>
-                                    <button class="btn btn-sm btn-danger"
-                                        onclick="confirmDelete('Amanda White')">Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Mobile Card View -->
-            <div class="donors-grid">
-                <div class="donor-card">
-                    <div class="donor-name">John Smith</div>
-                    <div class="donor-info">
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Age</div>
-                            <div class="donor-info-value">28</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Blood Group</div>
-                            <div class="donor-info-value"><span class="blood-group a-pos">A+</span></div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Donation Date</div>
-                            <div class="donor-info-value">2024-06-15</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Centre</div>
-                            <div class="donor-info-value">City General Hospital Blood Bank</div>
-                        </div>
-                    </div>
-                    <div class="donor-actions">
-                        <a href="edit-donor.html?id=1" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('John Smith')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="donor-card">
-                    <div class="donor-name">Sarah Johnson</div>
-                    <div class="donor-info">
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Age</div>
-                            <div class="donor-info-value">34</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Blood Group</div>
-                            <div class="donor-info-value"><span class="blood-group o-neg">O-</span></div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Donation Date</div>
-                            <div class="donor-info-value">2024-06-10</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Centre</div>
-                            <div class="donor-info-value">Regional Blood Center</div>
-                        </div>
-                    </div>
-                    <div class="donor-actions">
-                        <a href="edit-donor.html?id=2" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('Sarah Johnson')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="donor-card">
-                    <div class="donor-name">Michael Brown</div>
-                    <div class="donor-info">
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Age</div>
-                            <div class="donor-info-value">42</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Blood Group</div>
-                            <div class="donor-info-value"><span class="blood-group b-pos">B+</span></div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Donation Date</div>
-                            <div class="donor-info-value">2024-06-08</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Centre</div>
-                            <div class="donor-info-value">Community Health Blood Bank</div>
-                        </div>
-                    </div>
-                    <div class="donor-actions">
-                        <a href="edit-donor.html?id=3" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('Michael Brown')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="donor-card">
-                    <div class="donor-name">Emily Davis</div>
-                    <div class="donor-info">
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Age</div>
-                            <div class="donor-info-value">26</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Blood Group</div>
-                            <div class="donor-info-value"><span class="blood-group ab-pos">AB+</span></div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Donation Date</div>
-                            <div class="donor-info-value">2024-06-05</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Centre</div>
-                            <div class="donor-info-value">University Medical Center</div>
-                        </div>
-                    </div>
-                    <div class="donor-actions">
-                        <a href="edit-donor.html?id=4" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('Emily Davis')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="donor-card">
-                    <div class="donor-name">David Wilson</div>
-                    <div class="donor-info">
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Age</div>
-                            <div class="donor-info-value">31</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Blood Group</div>
-                            <div class="donor-info-value"><span class="blood-group a-neg">A-</span></div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Donation Date</div>
-                            <div class="donor-info-value">2024-06-03</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Centre</div>
-                            <div class="donor-info-value">Emergency Blood Services</div>
-                        </div>
-                    </div>
-                    <div class="donor-actions">
-                        <a href="edit-donor.html?id=5" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('David Wilson')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="donor-card">
-                    <div class="donor-name">Lisa Garcia</div>
-                    <div class="donor-info">
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Age</div>
-                            <div class="donor-info-value">29</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Blood Group</div>
-                            <div class="donor-info-value"><span class="blood-group o-pos">O+</span></div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Donation Date</div>
-                            <div class="donor-info-value">2024-06-01</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Centre</div>
-                            <div class="donor-info-value">Southside Medical Blood Bank</div>
-                        </div>
-                    </div>
-                    <div class="donor-actions">
-                        <a href="edit-donor.html?id=6" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('Lisa Garcia')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="donor-card">
-                    <div class="donor-name">Robert Martinez</div>
-                    <div class="donor-info">
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Age</div>
-                            <div class="donor-info-value">37</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Blood Group</div>
-                            <div class="donor-info-value"><span class="blood-group b-neg">B-</span></div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Donation Date</div>
-                            <div class="donor-info-value">2024-05-28</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Centre</div>
-                            <div class="donor-info-value">Children's Hospital Blood Center</div>
-                        </div>
-                    </div>
-                    <div class="donor-actions">
-                        <a href="edit-donor.html?id=7" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('Robert Martinez')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="donor-card">
-                    <div class="donor-name">Jennifer Lee</div>
-                    <div class="donor-info">
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Age</div>
-                            <div class="donor-info-value">33</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Blood Group</div>
-                            <div class="donor-info-value"><span class="blood-group ab-neg">AB-</span></div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Donation Date</div>
-                            <div class="donor-info-value">2024-05-25</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Centre</div>
-                            <div class="donor-info-value">Metropolitan Blood Services</div>
-                        </div>
-                    </div>
-                    <div class="donor-actions">
-                        <a href="edit-donor.html?id=8" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('Jennifer Lee')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="donor-card">
-                    <div class="donor-name">Christopher Taylor</div>
-                    <div class="donor-info">
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Age</div>
-                            <div class="donor-info-value">25</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Blood Group</div>
-                            <div class="donor-info-value"><span class="blood-group a-pos">A+</span></div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Donation Date</div>
-                            <div class="donor-info-value">2024-05-22</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Centre</div>
-                            <div class="donor-info-value">City General Hospital Blood Bank</div>
-                        </div>
-                    </div>
-                    <div class="donor-actions">
-                        <a href="edit-donor.html?id=9" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger"
-                            onclick="confirmDelete('Christopher Taylor')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="donor-card">
-                    <div class="donor-name">Amanda White</div>
-                    <div class="donor-info">
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Age</div>
-                            <div class="donor-info-value">39</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Blood Group</div>
-                            <div class="donor-info-value"><span class="blood-group o-neg">O-</span></div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Donation Date</div>
-                            <div class="donor-info-value">2024-05-20</div>
-                        </div>
-                        <div class="donor-info-item">
-                            <div class="donor-info-label">Centre</div>
-                            <div class="donor-info-value">Regional Blood Center</div>
-                        </div>
-                    </div>
-                    <div class="donor-actions">
-                        <a href="edit-donor.html?id=10" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('Amanda White')">Delete</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <script>
-        function toggleNav() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
-        }
-
-        function confirmDelete(donorName) {
+        <script>
+           async function confirmDelete(donorName, donorId) {
             if (confirm(`Are you sure you want to delete "${donorName}"?`)) {
-                alert(`${donorName} would be deleted (this is a demo)`);
+                const res = await fetch(`/api/DonorApi/${donorId}`, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                const messageBox = document.getElementById("messageBox");
+
+                if (res.ok) {
+                    const result = await res.json();
+                    messageBox.innerHTML = `<div class="alert alert-success"> <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> ${result.message}</div>`;
+                   setInterval(function () {
+        location.reload();
+    }, 5000);
+                } else {
+                    const errorText = await res.text(); 
+                    messageBox.innerHTML = `<div class="alert alert-danger"> <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> ${errorText}</div>`;
+                }
             }
         }
-    </script>
-</body>
+        </script>
+    </body>
 
-</html>
+    </html>

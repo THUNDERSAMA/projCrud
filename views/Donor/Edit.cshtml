@@ -1,3 +1,4 @@
+@model List<projCrud.Models.Center>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -98,6 +99,36 @@
         .page-title {
             font-size: 2rem;
             color: var(--text-color);
+        }
+
+        .alert {
+            padding: 20px;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .closebtn:hover {
+            color: black;
+        }
+
+        .alert-danger {
+            background-color: #f44336;
+
+        }
+
+        .alert-success {
+            background-color: #27ae60;
         }
 
         /* Form Styles */
@@ -237,9 +268,9 @@
             <div class="nav-brand">Blood Bank Dashboard</div>
             <button class="nav-toggle" onclick="toggleNav()">☰</button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="centres.html">Centres</a></li>
-                <li><a href="donors.html" class="active">Donors</a></li>
+                <li><a href="../Home">Home</a></li>
+                <li><a href="../Center/" class="active">Centres</a></li>
+                <li><a href="../Donor/">Donors</a></li>
             </ul>
         </div>
     </nav>
@@ -254,17 +285,18 @@
 
             <!-- Form -->
             <div class="form-container">
-                <form id="editDonorForm" onsubmit="handleSubmit(event)">
+                <div id="messageBox" style="margin-bottom: 10px;"></div>
+                <form id="centerForm" onsubmit="handleUpdate(event)">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="donorName" class="form-label">Donor Name *</label>
-                            <input type="text" id="donorName" name="donorName" class="form-control" required
+                            <input type="text" id="name" name="donorName" class="form-control" required
                                 placeholder="Enter donor name">
                         </div>
 
                         <div class="form-group">
                             <label for="donorAge" class="form-label">Age *</label>
-                            <input type="number" id="donorAge" name="donorAge" class="form-control" required min="18"
+                            <input type="number" id="age" name="donorAge" class="form-control" required min="18"
                                 max="65" placeholder="Enter age">
                         </div>
                     </div>
@@ -287,28 +319,25 @@
 
                         <div class="form-group">
                             <label for="donationDate" class="form-label">Donation Date *</label>
-                            <input type="date" id="donationDate" name="donationDate" class="form-control" required>
+                            <input type="date" id="date" name="donationDate" class="form-control" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="centre" class="form-label">Centre *</label>
-                        <select id="centre" name="centre" class="form-control" required>
+                        <label for="center" class="form-label">Centre *</label>
+                        <select id="center" name="center" class="form-control" required>
                             <option value="">Select Centre</option>
-                            <option value="City General Hospital Blood Bank">City General Hospital Blood Bank</option>
-                            <option value="Regional Blood Center">Regional Blood Center</option>
-                            <option value="Community Health Blood Bank">Community Health Blood Bank</option>
-                            <option value="University Medical Center">University Medical Center</option>
-                            <option value="Emergency Blood Services">Emergency Blood Services</option>
-                            <option value="Southside Medical Blood Bank">Southside Medical Blood Bank</option>
-                            <option value="Children's Hospital Blood Center">Children's Hospital Blood Center</option>
-                            <option value="Metropolitan Blood Services">Metropolitan Blood Services</option>
+                            @foreach (var center in Model)
+                            {
+                                <option value="@center.Id">@center.Name</option>
+
+                            }
                         </select>
                     </div>
 
                     <div class="form-actions">
-                        <button type="submit" class="btn">Update Donor</button>
-                        <a href="donors.html" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn">Add Donor</button>
+
                     </div>
                 </form>
             </div>
@@ -316,60 +345,50 @@
     </main>
 
     <script>
-        // Sample data for different donors based on ID
-        const donorData = {
-            '1': { name: 'John Smith', age: 28, bloodGroup: 'A+', donationDate: '2024-06-15', centre: 'City General Hospital Blood Bank' },
-            '2': { name: 'Sarah Johnson', age: 34, bloodGroup: 'O-', donationDate: '2024-06-10', centre: 'Regional Blood Center' },
-            '3': { name: 'Michael Brown', age: 42, bloodGroup: 'B+', donationDate: '2024-06-08', centre: 'Community Health Blood Bank' },
-            '4': { name: 'Emily Davis', age: 26, bloodGroup: 'AB+', donationDate: '2024-06-05', centre: 'University Medical Center' },
-            '5': { name: 'David Wilson', age: 31, bloodGroup: 'A-', donationDate: '2024-06-03', centre: 'Emergency Blood Services' },
-            '6': { name: 'Lisa Garcia', age: 29, bloodGroup: 'O+', donationDate: '2024-06-01', centre: 'Southside Medical Blood Bank' },
-            '7': { name: 'Robert Martinez', age: 37, bloodGroup: 'B-', donationDate: '2024-05-28', centre: 'Children\'s Hospital Blood Center' },
-            '8': { name: 'Jennifer Lee', age: 33, bloodGroup: 'AB-', donationDate: '2024-05-25', centre: 'Metropolitan Blood Services' },
-            '9': { name: 'Christopher Taylor', age: 25, bloodGroup: 'A+', donationDate: '2024-05-22', centre: 'City General Hospital Blood Bank' },
-            '10': { name: 'Amanda White', age: 39, bloodGroup: 'O-', donationDate: '2024-05-20', centre: 'Regional Blood Center' }
-        };
+        const urlParams = new URLSearchParams(window.location.search);
+        const centerId = urlParams.get("id");
 
-        function toggleNav() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
+        async function loadCenter() {
+            const res = await fetch(`/api/DonorApi/${centerId}`);
+            const data = await res.json();
+            console.log(data);
+            document.getElementById("name").value = data.name;
+            document.getElementById("age").value = data.age;
+            document.getElementById("bloodGroup").value = data.bloodGroup;
+            document.getElementById("date").value = new Date(data.donationDate).toISOString().split("T")[0];
+            document.getElementById("center").value = data.centerId;
         }
 
-        function loadDonorData() {
-            // Get donor ID from URL parameters
-            const urlParams = new URLSearchParams(window.location.search);
-            const donorId = urlParams.get('id');
-
-            if (donorId && donorData[donorId]) {
-                const donor = donorData[donorId];
-                document.getElementById('donorName').value = donor.name;
-                document.getElementById('donorAge').value = donor.age;
-                document.getElementById('bloodGroup').value = donor.bloodGroup;
-                document.getElementById('donationDate').value = donor.donationDate;
-                document.getElementById('centre').value = donor.centre;
-            }
-        }
-
-        function handleSubmit(event) {
+        async function handleUpdate(event) {
             event.preventDefault();
 
-            const donorName = document.getElementById('donorName').value;
-            const donorAge = document.getElementById('donorAge').value;
-            const bloodGroup = document.getElementById('bloodGroup').value;
-            const donationDate = document.getElementById('donationDate').value;
-            const centre = document.getElementById('centre').value;
+            const updatedData = {
+                Name: document.getElementById("name").value,
+                Age: document.getElementById("age").value,
+                BloodGroup: document.getElementById("bloodGroup").value,
+                DonationDate: document.getElementById("date").value,
+                CenterId: document.getElementById("center").value
+            };
 
-            if (donorName.trim() && donorAge && bloodGroup && donationDate && centre) {
-                alert(`Donor "${donorName}" (Age: ${donorAge}, Blood Group: ${bloodGroup}) would be updated (this is a demo)`);
-                // In a real application, you would send this data to a server
-                window.location.href = 'donors.html';
+            const res = await fetch(`/api/DonorApi/${centerId}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updatedData)
+            });
+
+            const result = await res.json();
+
+            if (res.ok) {
+                document.getElementById("messageBox").innerHTML =
+                    `<div class="alert alert-success"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>${result.message}</div>`;
             } else {
-                alert('Please fill in all required fields');
+                const errorText = Object.values(result).flat().join("<br>");
+                document.getElementById("messageBox").innerHTML =
+                    `<div class="alert alert-danger"><span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>${errorText}</div>`;
             }
         }
 
-        // Load donor data when page loads
-        window.addEventListener('load', loadDonorData);
+        window.onload = loadCenter;
     </script>
 </body>
 

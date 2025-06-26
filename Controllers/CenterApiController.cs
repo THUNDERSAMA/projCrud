@@ -40,16 +40,19 @@ namespace projCrud.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCenter(int id, Center center)
+        public async Task<IActionResult> UpdateCenter(int id, [FromBody] Center updatedCenter)
         {
-            if (id != center.Id)
-                return BadRequest();
+            var existing = await _context.Center.FindAsync(id);
+            if (existing == null)
+                return NotFound();
 
-            _context.Entry(center).State = EntityState.Modified;
+            existing.Name = updatedCenter.Name;
+            existing.Location = updatedCenter.Location;
+
             await _context.SaveChangesAsync();
             return Ok(new { message = "Center updated successfully." });
-            ;
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCenter(int id)
@@ -60,7 +63,7 @@ namespace projCrud.Controllers
 
             _context.Center.Remove(center);
             await _context.SaveChangesAsync();
-            return NoContent();
+            return Ok(new { message = "Center deleted successfully." });
         }
     }
 }

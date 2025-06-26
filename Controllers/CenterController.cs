@@ -109,27 +109,6 @@ namespace projCrud.Controllers
 
         public IActionResult Create() => View();
         public IActionResult Edit() => View();
-        [HttpPost]
-        public async Task<IActionResult> Create(Center center)
-        {
-            Console.WriteLine("added");
-            // if (!ModelState.IsValid)
-            //     return View(center);
-            if (!ModelState.IsValid)
-            {
-                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-                {
-                    Console.WriteLine("Validation Error: " + error.ErrorMessage);
-                }
-                return View(center);
-            }
-            _context.Center.Add(center);
-            await _context.SaveChangesAsync();
-
-            TempData["SuccessMessage"] = "Center added successfully!";
-
-            return RedirectToAction(nameof(Index));
-        }
 
 
         // Add Edit/Delete as needed here too

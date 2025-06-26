@@ -102,6 +102,36 @@
             padding: 0 1rem;
         }
 
+        .alert {
+            padding: 20px;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .closebtn:hover {
+            color: black;
+        }
+
+        .alert-danger {
+            background-color: #f44336;
+
+        }
+
+        .alert-success {
+            background-color: #27ae60;
+        }
+
         .page-header {
             display: flex;
             justify-content: space-between;
@@ -300,8 +330,8 @@
             <div class="nav-brand">Blood Bank Dashboard</div>
             <button class="nav-toggle" onclick="toggleNav()">☰</button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="../">Home</a></li>
-                <li><a href="#" class="active">Centres</a></li>
+                <li><a href="../Home">Home</a></li>
+                <li><a href="../Center/" class="active">Centres</a></li>
                 <li><a href="../Donor/">Donors</a></li>
             </ul>
         </div>
@@ -315,7 +345,7 @@
                 <h1 class="page-title">Blood Centres</h1>
                 <a href="Center/Create" class="btn btn-primary">+ Add Centre</a>
             </div>
-
+            <div id="messageBox"></div>
             <!-- Desktop Table View -->
             <div class="table-container">
                 <div class="table-responsive">
@@ -336,9 +366,9 @@
                                     <td>@centre.Location</td>
                                     <td>@(centre.Donors?.Count ?? 0)</td>
                                     <td>
-                                        <a href="Center/Edit?id=@centre.Id" class="btn btn-sm btn-success">Edit</a>
-                                        <a asp-action="Delete" asp-route-id="@centre.Id" class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Are you sure you want to delete @centre.Name?');">Delete</a>
+                                        <a href="../Center/Edit?id=@centre.Id" class="btn btn-sm btn-success">Edit</a>
+                                        <button class="btn btn-sm btn-danger"
+                                            onclick="confirmDelete('@centre.Name',@centre.Id);">Delete</button>
                                     </td>
                                 </tr>
                             }
@@ -347,126 +377,33 @@
                 </div>
             </div>
 
-            <!-- Mobile Card View -->
-            <div class="centres-grid">
-                <div class="centre-card">
-                    <div class="centre-name">City General Hospital Blood Bank</div>
-                    <div class="centre-location">📍 Downtown Medical District</div>
-                    <div class="centre-stats">
-                        <span>Total Donors: <strong>45</strong></span>
-                    </div>
-                    <div class="centre-actions">
-                        <a href="edit-centre.html?id=1" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger"
-                            onclick="confirmDelete('City General Hospital Blood Bank')">Delete</button>
-                    </div>
-                </div>
 
-                <div class="centre-card">
-                    <div class="centre-name">Regional Blood Center</div>
-                    <div class="centre-location">📍 North Side Plaza</div>
-                    <div class="centre-stats">
-                        <span>Total Donors: <strong>32</strong></span>
-                    </div>
-                    <div class="centre-actions">
-                        <a href="edit-centre.html?id=2" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger"
-                            onclick="confirmDelete('Regional Blood Center')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="centre-card">
-                    <div class="centre-name">Community Health Blood Bank</div>
-                    <div class="centre-location">📍 Westside Community Center</div>
-                    <div class="centre-stats">
-                        <span>Total Donors: <strong>28</strong></span>
-                    </div>
-                    <div class="centre-actions">
-                        <a href="edit-centre.html?id=3" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger"
-                            onclick="confirmDelete('Community Health Blood Bank')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="centre-card">
-                    <div class="centre-name">University Medical Center</div>
-                    <div class="centre-location">📍 University Campus</div>
-                    <div class="centre-stats">
-                        <span>Total Donors: <strong>51</strong></span>
-                    </div>
-                    <div class="centre-actions">
-                        <a href="edit-centre.html?id=4" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger"
-                            onclick="confirmDelete('University Medical Center')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="centre-card">
-                    <div class="centre-name">Emergency Blood Services</div>
-                    <div class="centre-location">📍 Central Emergency District</div>
-                    <div class="centre-stats">
-                        <span>Total Donors: <strong>38</strong></span>
-                    </div>
-                    <div class="centre-actions">
-                        <a href="edit-centre.html?id=5" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger"
-                            onclick="confirmDelete('Emergency Blood Services')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="centre-card">
-                    <div class="centre-name">Southside Medical Blood Bank</div>
-                    <div class="centre-location">📍 Southside Medical Complex</div>
-                    <div class="centre-stats">
-                        <span>Total Donors: <strong>42</strong></span>
-                    </div>
-                    <div class="centre-actions">
-                        <a href="edit-centre.html?id=6" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger"
-                            onclick="confirmDelete('Southside Medical Blood Bank')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="centre-card">
-                    <div class="centre-name">Children's Hospital Blood Center</div>
-                    <div class="centre-location">📍 Pediatric Medical District</div>
-                    <div class="centre-stats">
-                        <span>Total Donors: <strong>19</strong></span>
-                    </div>
-                    <div class="centre-actions">
-                        <a href="edit-centre.html?id=7" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger"
-                            onclick="confirmDelete('Children\'s Hospital Blood Center')">Delete</button>
-                    </div>
-                </div>
-
-                <div class="centre-card">
-                    <div class="centre-name">Metropolitan Blood Services</div>
-                    <div class="centre-location">📍 Downtown Metro Plaza</div>
-                    <div class="centre-stats">
-                        <span>Total Donors: <strong>55</strong></span>
-                    </div>
-                    <div class="centre-actions">
-                        <a href="edit-centre.html?id=8" class="btn btn-sm btn-success">Edit</a>
-                        <button class="btn btn-sm btn-danger"
-                            onclick="confirmDelete('Metropolitan Blood Services')">Delete</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </main>
 
     <script>
-        function toggleNav() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
-        }
-
-        function confirmDelete(centreName) {
+        async function confirmDelete(centreName, centerId) {
             if (confirm(`Are you sure you want to delete "${centreName}"?`)) {
-                alert(`${centreName} would be deleted (this is a demo)`);
+                const res = await fetch(`/api/CenterApi/${centerId}`, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                const messageBox = document.getElementById("messageBox");
+
+                if (res.ok) {
+                    const result = await res.json();
+                    messageBox.innerHTML = `<div class="alert alert-success"> <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> ${result.message}</div>`;
+                    setInterval(function () {
+                        location.reload();
+                    }, 5000);
+                } else {
+                    const errorText = await res.text();
+                    messageBox.innerHTML = `<div class="alert alert-danger"> <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> ${errorText}</div>`;
+                }
             }
         }
+
     </script>
 </body>
 

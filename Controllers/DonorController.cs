@@ -1,13 +1,11 @@
-using projCrud.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using projCrud.Data;
+using projCrud.Models;
 
 namespace projCrud.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class DonorController : ControllerBase
+    public class DonorController : Controller
     {
         private readonly AppDbContext _context;
 
@@ -16,64 +14,26 @@ namespace projCrud.Controllers
             _context = context;
         }
 
-        // GET: api/donor
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Donor>>> GetDonors()
+        public async Task<IActionResult> Index()
         {
-            return await _context.Donors
+            var donors = await _context.Donors
                 .Include(d => d.Center)
                 .ToListAsync();
+            return View(donors); // Renders Views/Center/Index.cshtml
         }
 
-        // GET: api/donor/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Donor>> GetDonor(int id)
+        public async Task<IActionResult> Create()
         {
-            var donor = await _context.Donors
-                .Include(d => d.Center)
-                .FirstOrDefaultAsync(d => d.Id == id);
-
-            if (donor == null)
-                return NotFound();
-
-            return donor;
+            var centers = await _context.Center.ToListAsync();
+            return View(centers); // This will be passed to the dropdown
         }
-
-        // POST: api/donor
-        [HttpPost]
-        public async Task<ActionResult<Donor>> CreateDonor(Donor donor)
+        public async Task<IActionResult> EditAsync()
         {
-            _context.Donors.Add(donor);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetDonor), new { id = donor.Id }, donor);
+            var centers = await _context.Center.ToListAsync();
+            return View(centers);
         }
 
-        // PUT: api/donor/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDonor(int id, Donor donor)
-        {
-            if (id != donor.Id)
-                return BadRequest();
 
-            _context.Entry(donor).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        // DELETE: api/donor/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDonor(int id)
-        {
-            var donor = await _context.Donors.FindAsync(id);
-            if (donor == null)
-                return NotFound();
-
-            _context.Donors.Remove(donor);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
+        // Add Edit/Delete as needed here too
     }
 }
